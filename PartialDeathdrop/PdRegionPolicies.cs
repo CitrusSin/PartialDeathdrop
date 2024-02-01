@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using Rocket.API;
+using Rocket.Unturned.Player;
 using SDG.Unturned;
 
 namespace PartialDeathdrop
@@ -13,7 +15,16 @@ namespace PartialDeathdrop
             CustomRegions = new List<RegionPolicy>();
         }
 
-        public Policy? GetCorrespondingPolicyFor(Player player)
+        public RegionPolicy GetCorrespondingRPFor(UnturnedPlayer player)
+        {
+            foreach (var rp in CustomRegions)
+                if (rp.ValidRegion.InsideFor(player.Player.transform.position))
+                    return rp;
+
+            return null;
+        }
+
+        public Policy GetCorrespondingPolicyFor(Player player)
         {
             foreach (var rp in CustomRegions)
                 if (rp.ValidRegion.InsideFor(player.transform.position))

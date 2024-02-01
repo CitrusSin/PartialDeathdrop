@@ -1,8 +1,9 @@
+using System.Text;
 using UnityEngine;
 
 namespace PartialDeathdrop
 {
-    public struct RegionSphere : Region
+    public struct RegionSphere
     {
         public Vector3 Center;
         public float Radius;
@@ -13,10 +14,19 @@ namespace PartialDeathdrop
             Radius = radius;
         }
 
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("Sphere region");
+            sb.AppendFormat("Center: {0}\n", Center);
+            sb.AppendFormat("Radius: {0:0.000}\n", Radius);
+            return sb.ToString();
+        }
+
         public bool InsideFor(Vector3 position)
         {
             var displace = position - Center;
-            return displace.sqrMagnitude < Radius;
+            return displace.sqrMagnitude < Radius * Radius;
         }
     }
 }
